@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD;
+const MONGO_DB_PASSWORD = process.env.MONGODB_PASSWORD;
 export const databaseProviders = [
   {
     provide: 'DATABASE_CONNECTION',
