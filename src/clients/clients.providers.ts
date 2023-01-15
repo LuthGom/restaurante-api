@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose';
-import { ClientSchema } from './entities/client.entity';
+import { ClientSchema } from '../Schemas/client.schema';
 
 export const clientsProviders = [
   {

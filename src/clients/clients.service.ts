@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Client, ClientDocument } from './entities/client.entity';
+import { Client, ClientDocument } from '../Schemas/client.schema';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
