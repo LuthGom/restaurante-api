@@ -1,16 +1,15 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Client, ClientDocument } from './entities/client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-const MONGO_DB_PASSWORD = process.env.MONGODB_PASSWORD;
-console.log('TESTE', MONGO_DB_PASSWORD);
 
 @Injectable()
 export class ClientsService {
   constructor(
-    @InjectModel(Client.name) private clientModel: Model<ClientDocument>,
+    @Inject('CLIENT_MODEL')
+    private clientModel: Model<Client>,
   ) {}
 
   async create(createClientDto: CreateClientDto): Promise<Client> {
