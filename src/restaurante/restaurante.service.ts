@@ -10,24 +10,32 @@ export class RestauranteService {
     @Inject('RESTAURANT_MODEL')
     private restauranteModel: Model<Restaurant>,
   ) {}
-  create(createRestauranteDto: CreateRestauranteDto) {
+  async create(
+    createRestauranteDto: CreateRestauranteDto,
+  ): Promise<Restaurant> {
     const createRestaurant = new this.restauranteModel(createRestauranteDto);
     return createRestaurant.save();
   }
 
-  findAll() {
-    return `This action returns all restaurante`;
+  async findAll(): Promise<Restaurant[]> {
+    return this.restauranteModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} restaurante`;
+  findOne(id: string) {
+    return this.restauranteModel.findById(id).exec();
   }
 
-  update(id: number, updateRestauranteDto: UpdateRestauranteDto) {
-    return `This action updates a #${id} restaurante`;
+  update(id: string, updateRestauranteDto: UpdateRestauranteDto) {
+    return this.restauranteModel
+      .findByIdAndUpdate(
+        { _id: id },
+        { $set: updateRestauranteDto },
+        { new: true },
+      )
+      .exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} restaurante`;
+  remove(id: string) {
+    return this.restauranteModel.findByIdAndDelete({ _id: id }).exec();
   }
 }
