@@ -23,15 +23,13 @@ export class ClientsService {
   }
 
   findOne(id: string) {
-    return this.clientModel.findById(id);
+    return this.clientModel.findById(id).exec();
   }
 
   update(id: string, updateClientDto: UpdateClientDto) {
-    return this.clientModel.findByIdAndUpdate(
-      { _id: id },
-      { updateClientDto },
-      { new: true },
-    );
+    return this.clientModel
+      .findByIdAndUpdate({ _id: id }, { $set: updateClientDto }, { new: true })
+      .exec();
   }
 
   remove(id: string) {
