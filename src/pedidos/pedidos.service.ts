@@ -1,15 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { Pedidos } from 'src/Schemas/pedidos.schema';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 
 @Injectable()
 export class PedidosService {
-  create(createPedidoDto: CreatePedidoDto) {
-    return 'This action adds a new pedido';
+  constructor(
+    @Inject('PEDIDOS_MODEL')
+    private pedidosModel: Model<Pedidos>,
+  ) {}
+  async create(createPedidoDto: CreatePedidoDto): Promise<Pedidos> {
+    const createPedido = new this.pedidosModel(createPedidoDto);
+    return createPedido.save();
   }
 
-  findAll() {
-    return `This action returns all pedidos`;
+  async findAll(): Promise<Pedidos[]> {
+    return this.pedidosModel.find().exec();
   }
 
   findOne(id: number) {
