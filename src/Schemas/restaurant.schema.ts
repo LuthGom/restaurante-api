@@ -5,13 +5,13 @@ export type CatDocument = HydratedDocument<Restaurant>;
 
 @Schema()
 export class Restaurant {
-  @Prop()
+  @Prop({ type: String, required: true })
   name: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   cnpj: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   unidade: string;
 
   @Prop()
