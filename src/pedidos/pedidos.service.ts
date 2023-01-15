@@ -19,15 +19,19 @@ export class PedidosService {
     return this.pedidosModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pedido`;
+  findOne(id: string) {
+    return this.pedidosModel.findById(id);
   }
 
-  update(id: number, updatePedidoDto: UpdatePedidoDto) {
-    return `This action updates a #${id} pedido`;
+  update(id: string, updatePedidoDto: UpdatePedidoDto) {
+    return this.pedidosModel.findByIdAndUpdate(
+      { _id: id },
+      { updatePedidoDto },
+      { new: true },
+    );
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} pedido`;
   }
 }
