@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
-import { CreatePedidoDto } from './dto/create-pedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { CreatePedidosDto } from './dto/create-pedido.dto';
+import { UpdatePedidosDto } from './dto/update-pedido.dto';
 
 @Controller('pedidos')
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
   @Post()
-  create(@Body() createPedidoDto: CreatePedidoDto) {
+  create(@Body() createPedidoDto: CreatePedidosDto) {
     return this.pedidosService.create(createPedidoDto);
   }
 
@@ -19,16 +19,16 @@ export class PedidosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pedidosService.findOne(+id);
+    return this.pedidosService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
-    return this.pedidosService.update(+id, updatePedidoDto);
+  update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidosDto) {
+    return this.pedidosService.update(id, updatePedidoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.pedidosService.remove(+id);
+    return this.pedidosService.remove(id);
   }
 }

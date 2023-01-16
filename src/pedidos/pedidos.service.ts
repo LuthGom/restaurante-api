@@ -1,37 +1,50 @@
-import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Pedidos } from 'src/Schemas/pedidos.schema';
-import { CreatePedidoDto } from './dto/create-pedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { Pedidos, PedidosSchema } from 'src/Schemas/pedidos.schema';
+import { CreatePedidosDto } from './dto/create-pedido.dto';
+import { UpdatePedidosDto } from './dto/update-pedido.dto';
+import { Restaurant } from 'src/Schemas/restaurant.schema';
+import { Client } from 'src/Schemas/client.schema';
 
 @Injectable()
 export class PedidosService {
   constructor(
     @Inject('PEDIDOS_MODEL')
-    private pedidosModel: Model<Pedidos>,
+    private pedidoModel: Model<Pedidos>,
   ) {}
-  async create(createPedidoDto: CreatePedidoDto): Promise<Pedidos> {
-    const createPedido = new this.pedidosModel(createPedidoDto);
+
+  async create(createPedidosDto: CreatePedidosDto): Promise<Pedidos> {
+    const createPedido = new this.pedidoModel(createPedidosDto);
     return createPedido.save();
   }
 
   async findAll(): Promise<Pedidos[]> {
-    return this.pedidosModel.find().exec();
+    return this.pedidoModel
+      .find()
+      .populate<{ restaurante: Restaurant }>('Restaurant')
+      .populate<{ client: Client }>('Clients')
+      .orFail();
   }
 
-  findOne(id: string) {
-    return this.pedidosModel.findById(id);
+  async findOne(id: string) {
+    return this.pedidoModel
+      .findById(id)
+      .populate<{ restaurante: Restaurant }>('Restaurant')
+      .populate<{ client: Client }>('Clients')
+      .orFail();
   }
 
-  update(id: string, updatePedidoDto: UpdatePedidoDto) {
-    return this.pedidosModel.findByIdAndUpdate(
-      { _id: id },
-      { updatePedidoDto },
-      { new: true },
-    );
+  update(id: string, updatePedidosDto: UpdatePedidosDto) {
+    return this.pedidoModel
+      .findByIdAndUpdate({ _id: id }, { $set: updatePedidosDto }, { new: true })
+      .exec();
   }
 
   remove(id: string) {
-    return `This action removes a #${id} pedido`;
+    return this.pedidoModel
+      .findByIdAndDelete({
+        _id: id,
+      })
+      .exec();
   }
 }
