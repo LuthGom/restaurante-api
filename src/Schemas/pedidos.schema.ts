@@ -1,20 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as SchemaMongoose } from 'mongoose';
 
 export type PedidosDocument = HydratedDocument<Pedidos>;
 
 @Schema()
 export class Pedidos {
   @Prop({ type: Array, required: true })
-  itens: string[];
+  itens: object[];
 
   @Prop({ type: Number, required: true })
   total: number;
 
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({
+    type: SchemaMongoose.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true,
+  })
   unidade: object;
 
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: SchemaMongoose.Types.ObjectId, ref: 'Client', required: true })
   cliente: object;
 }
 
