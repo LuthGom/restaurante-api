@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 mongoose.set('strictQuery', true);
+mongoose.set('strictPopulate', false);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
