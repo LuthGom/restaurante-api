@@ -7,7 +7,7 @@
 ## MongoDB
 
 
-- Tecnologias para funcionalidades extras:
+- Tecnologias para funcionalidades extras(a ser implementado):
 ## Jest (para testes)
 ## JWT (para autenticação)
 
